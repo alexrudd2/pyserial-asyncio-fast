@@ -53,6 +53,10 @@ class SerialTransport(asyncio.Transport):
     calling you back when it succeeds.
     """
 
+    _loop: asyncio.AbstractEventLoop
+    _serial: serial.Serial
+    _protocol: asyncio.Protocol
+
     def __init__(
         self,
         loop: asyncio.AbstractEventLoop,
@@ -612,9 +616,11 @@ async def open_serial_connection(
 if __name__ == "__main__":
 
     class Output(asyncio.Protocol):
+        
+        _transport: SerialTransport
+
         def __init__(self):
             super().__init__()
-            self._transport = None
 
         def connection_made(self, transport):
             self._transport = transport
