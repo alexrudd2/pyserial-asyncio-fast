@@ -601,7 +601,7 @@ async def open_serial_connection(
     if loop is None:
         loop = asyncio.get_event_loop()
     if limit is None:
-        limit = asyncio.streams._DEFAULT_LIMIT
+        limit = 2 ** 16  # 64 KiB
     reader = asyncio.StreamReader(limit=limit, loop=loop)
     protocol = asyncio.StreamReaderProtocol(reader, loop=loop)
     transport, _ = await create_serial_connection(
